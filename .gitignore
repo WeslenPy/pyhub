@@ -1,2 +1,8 @@
 .venv/
 .env
+
+poetry.lock
+pyhub_test.py
+test_pyhub.py
+.pytest_cache/
+__pycache__/
