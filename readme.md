@@ -50,7 +50,7 @@ for country in prices:
 activation = client.get_number(service="tg", country=0)
 print(f"Número: {activation.phone_number} (ID: {activation.activation_id})")
 
-# Aguardar SMS (Polling Automático)
+# Buscar SMS
 code = client.get_sms(activation.activation_id)
 if code:
     print(f"Código recebido: {code}")
