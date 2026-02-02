@@ -75,7 +75,8 @@ class ClientBase:
         self, 
         service: str, 
         country: Optional[int] = None, 
-        operator: Optional[str] = None
+        operator: Optional[str] = None,
+        max_price: Optional[str] = None,
     ) -> NumberActivation:
         """Order a number for a service."""
         params = {"service": service}
@@ -86,6 +87,8 @@ class ClientBase:
                 operator = "any"
             params["operator"] = operator
 
+        if max_price:
+            params["maxPrice"] = max_price
             
         response = self._request("getNumber", params=params)
         # Expected: ACCESS_NUMBER:ID:NUMBER
