@@ -49,6 +49,11 @@ class ClientBase:
             response.raise_for_status()
             text = response.text
             
+            
+            logger.debug(f"URL Full: {response.url}")
+            
+            logger.debug(f"Response: {text}")
+            
             # Common error checks for SMSHub/HeroSMS/SMSActivate
             errors = ["BAD_KEY", "ERROR_SQL", "BAD_ACTION", "WRONG_ACTIVATION_ID", "NO_KEY", "BANNED"]
             for err in errors:
@@ -94,7 +99,13 @@ class ClientBase:
         raise ValueError(f"Error getting number: {response}")
 
     def set_status(self, activation_id: str, status: int) -> str:
-        """Set activation status."""
+        """Set activation status.
+                
+            1 — SMS sent (inform about readiness to receive code)
+            3 — request resending of SMS
+            6 — complete activation (code received and confirmed)
+            8 — cancel activation (return money)
+        """
         params = {"id": activation_id, "status": status}
         return self._request("setStatus", params=params)
 
