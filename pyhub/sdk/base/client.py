@@ -2,7 +2,7 @@ import httpx
 import re
 from typing import Optional, Dict, Any, List, Union
 from .schemas import Balance, NumberActivation, ActivationStatus, ServicePrice, CountryPrices
-
+from loguru import logger
 
 class ClientBase:
     """
@@ -41,6 +41,8 @@ class ClientBase:
             "action": action,
             **params
         }
+        
+        logger.debug(f"Query: {query_params} URL: {self.base_url}")
 
         with httpx.Client(**self.client_kwargs) as client:
             response = client.get(self.base_url, params=query_params)
