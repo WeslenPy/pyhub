@@ -23,10 +23,6 @@ class HeroSMSClient(ClientBase):
             timeout=timeout
         )
         
-        
-        
-    def get_number(self, service, country = None, operator = None,max_price=None):
-        return super().get_number(service, country, operator,max_price=None)
 
     def get_prices(self, service: Optional[str] = None, country: Optional[int] = None,free_price: Optional[bool] = True) -> List[CountryPrices]:
         """
