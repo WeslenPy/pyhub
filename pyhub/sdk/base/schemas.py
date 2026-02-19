@@ -25,6 +25,8 @@ class ServicePrice(BaseModel):
     cost: Union[float, List[float]]
     min_price: float
     max_price: float
+    min_price_disp:float
+    max_price_disp:float
     count: int
 
 

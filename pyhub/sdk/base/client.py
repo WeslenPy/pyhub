@@ -203,8 +203,6 @@ class ClientBase:
             import json
             data = json.loads(response)
 
-            print(data)
-            
             result = []
             
             # Standardization: some APIs return a list with one dictionary
@@ -226,21 +224,31 @@ class ClientBase:
                         cost: Union[float, List[float]] = base_cost
                         min_p = base_cost
                         max_p = base_cost
+                        min_price_disp = base_cost
+                        max_price_disp = base_cost
                         
                         # Support for multiple prices if freePriceMap is present
                         free_price_map = srv_data.get("freePriceMap")
                         if isinstance(free_price_map, dict) and free_price_map:
-                            prices = sorted([float(p) for p in free_price_map.keys()])
+                            prices = sorted(free_price_map.items())
                             if prices:
-                                cost = prices
-                                min_p = prices[0]
-                                max_p = prices[-1]
+                                for price,qtd in prices:
+                                    if qtd>0:
+                                        cost = price
+                                        min_price_disp = price
+                                        break
+                                        
+                                min_p = prices[0][0]
+                                max_p = prices[-1][0]
+                                max_price_disp=max_p
 
                         service_map[srv_code] = ServicePrice(
                             service=srv_code,
                             cost=cost,
                             min_price=min_p,
                             max_price=max_p,
+                            min_price_disp=min_price_disp,
+                            max_price_disp=max_price_disp,
                             count=int(srv_data.get("count", 0) or 0)
                         )
                     
@@ -283,21 +291,31 @@ class ClientBase:
                 cost: Union[float, List[float]] = base_cost
                 min_p = base_cost
                 max_p = base_cost
+                min_price_disp = base_cost
+                max_price_disp = base_cost
                 
                 # Support for multiple prices if freePriceMap is present
                 free_price_map = entry.get("freePriceMap")
                 if isinstance(free_price_map, dict) and free_price_map:
-                    prices = sorted([float(p) for p in free_price_map.keys()])
+                    prices = sorted(free_price_map.items())
                     if prices:
-                        cost = prices
-                        min_p = prices[0]
-                        max_p = prices[-1]
+                        for price,qtd in prices:
+                            if qtd>0:
+                                cost = price
+                                min_price_disp = price
+                                break
+                                
+                        min_p = prices[0][0]
+                        max_p = prices[-1][0]
+                        max_price_disp=max_p
 
                 country_map[c_id][srv_code] = ServicePrice(
                     service=srv_code,
                     cost=cost,
                     min_price=min_p,
                     max_price=max_p,
+                    min_price_disp=min_price_disp,
+                    max_price_disp=max_price_disp,
                     count=int(entry.get("count", 0) or 0)
                 )
 

@@ -96,11 +96,14 @@ class SMSBowerClient(ClientBase):
 
                 if prices:
                     prices.sort()
+                    
                     service_map[srv_code] = ServicePrice(
                         service=srv_code,
                         cost=prices if len(prices) > 1 else prices[0],
                         min_price=prices[0],
                         max_price=prices[-1],
+                        max_price_disp=prices[-1],
+                        min_price_disp=prices[0],
                         count=total_count
                     )
             
