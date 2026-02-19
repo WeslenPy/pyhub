@@ -27,6 +27,8 @@ class ServicePrice(BaseModel):
     max_price: float
     min_price_disp:float
     max_price_disp:float
+    count_max_price:int
+    count_min_price:int
     count: int
 
 

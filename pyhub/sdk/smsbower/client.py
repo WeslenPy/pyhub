@@ -104,6 +104,8 @@ class SMSBowerClient(ClientBase):
                         max_price=prices[-1],
                         max_price_disp=prices[-1],
                         min_price_disp=prices[0],
+                        count_max_price=total_count,
+                        count_min_price=total_count,
                         count=total_count
                     )
             

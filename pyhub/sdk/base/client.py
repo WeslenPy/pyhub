@@ -227,6 +227,11 @@ class ClientBase:
                         min_price_disp = base_cost
                         max_price_disp = base_cost
                         
+                        
+                        count_min_price = int(srv_data.get("count", 0) or 0)
+                        count_max_price = count_min_price
+                
+                
                         # Support for multiple prices if freePriceMap is present
                         free_price_map = srv_data.get("freePriceMap")
                         if isinstance(free_price_map, dict) and free_price_map:
@@ -236,10 +241,13 @@ class ClientBase:
                                     if qtd>0:
                                         cost = price
                                         min_price_disp = price
+                                        count_min_price= qtd or 0
                                         break
                                         
                                 min_p = prices[0][0]
                                 max_p = prices[-1][0]
+                                count_max_price= prices[-1][1] or 0
+                                
                                 max_price_disp=max_p
 
                         service_map[srv_code] = ServicePrice(
@@ -249,6 +257,8 @@ class ClientBase:
                             max_price=max_p,
                             min_price_disp=min_price_disp,
                             max_price_disp=max_price_disp,
+                            count_max_price=count_max_price,
+                            count_min_price=count_min_price,
                             count=int(srv_data.get("count", 0) or 0)
                         )
                     
@@ -294,6 +304,10 @@ class ClientBase:
                 min_price_disp = base_cost
                 max_price_disp = base_cost
                 
+                count_min_price = int(entry.get("count", 0) or 0)
+                count_max_price = count_min_price
+                
+                
                 # Support for multiple prices if freePriceMap is present
                 free_price_map = entry.get("freePriceMap")
                 if isinstance(free_price_map, dict) and free_price_map:
@@ -303,10 +317,13 @@ class ClientBase:
                             if qtd>0:
                                 cost = price
                                 min_price_disp = price
+                                count_min_price= qtd or 0
                                 break
                                 
                         min_p = prices[0][0]
                         max_p = prices[-1][0]
+                        count_max_price= prices[-1][1] or 0
+                        
                         max_price_disp=max_p
 
                 country_map[c_id][srv_code] = ServicePrice(
@@ -316,6 +333,8 @@ class ClientBase:
                     max_price=max_p,
                     min_price_disp=min_price_disp,
                     max_price_disp=max_price_disp,
+                    count_max_price=count_max_price,
+                    count_min_price=count_min_price,
                     count=int(entry.get("count", 0) or 0)
                 )
 
