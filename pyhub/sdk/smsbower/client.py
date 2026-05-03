@@ -22,9 +22,9 @@ class SMSBowerClient(ClientBase):
             timeout=timeout
         )
 
-    def get_prices(
-        self, 
-        service: Optional[str] = None, 
+    async def get_prices(
+        self,
+        service: Optional[str] = None,
         country: Optional[int] = None,
         free_price: Optional[bool] = False
     ) -> List[CountryPrices]:
@@ -32,9 +32,9 @@ class SMSBowerClient(ClientBase):
         Overrides get_prices to use get_prices_v2 for SMSBower,
         as it provides more detailed data.
         """
-        return self.get_prices_v2(service=service, country=country)
+        return await self.get_prices_v2(service=service, country=country)
 
-    def get_prices_v2(self, service: Optional[str] = None, country: Optional[int] = None) -> List[CountryPrices]:
+    async def get_prices_v2(self, service: Optional[str] = None, country: Optional[int] = None) -> List[CountryPrices]:
         """
         Get prices for services (V2).
         Returns multiple prices per service.
@@ -45,7 +45,7 @@ class SMSBowerClient(ClientBase):
         if country is not None:
             params["country"] = country
 
-        response = self._request("getPricesV2", params=params)
+        response = await self._request("getPricesV2", params=params)
         try:
             import json
             data = json.loads(response)
@@ -53,7 +53,7 @@ class SMSBowerClient(ClientBase):
         except Exception as e:
             raise ValueError(f"Error parsing prices V2: {response[:200]}... Internal error: {str(e)}")
 
-    def get_prices_v3(self, service: Optional[str] = None, country: Optional[int] = None) -> List[CountryPrices]:
+    async def get_prices_v3(self, service: Optional[str] = None, country: Optional[int] = None) -> List[CountryPrices]:
         """
         Get prices for services (V3).
         Returns provider-specific data.
@@ -64,7 +64,7 @@ class SMSBowerClient(ClientBase):
         if country is not None:
             params["country"] = country
 
-        response = self._request("getPricesV3", params=params)
+        response = await self._request("getPricesV3", params=params)
         try:
             import json
             data = json.loads(response)

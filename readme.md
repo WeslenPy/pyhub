@@ -37,27 +37,32 @@ client = PyHub.get_client(
 
 ### Operações Comuns
 
+Todas as chamadas HTTP são assíncronas: use `await` dentro de uma função `async` (ou `asyncio.run` no script).
+
 ```python
-# Verificar Saldo
-balance = client.get_balance()
-print(f"Saldo: {balance.amount} {balance.currency}")
+import asyncio
+from pyhub.sdk.api import PyHub
 
-# Consultar Preços (Padronizado)
-prices = client.get_prices(service="tg")
-for country in prices:
-    print(f"País {country.country_id}: Min {country.services['tg'].min_price}")
+async def exemplo():
+    client = PyHub.get_client(provider="smshub", api_key="SUA_KEY")
 
-# Comprar Número
-activation = client.get_number(service="tg", country=0)
-print(f"Número: {activation.phone_number} (ID: {activation.activation_id})")
+    balance = await client.get_balance()
+    print(f"Saldo: {balance.amount} {balance.currency}")
 
-# Buscar SMS
-code = client.get_sms(activation.activation_id)
-if code:
-    print(f"Código recebido: {code}")
+    prices = await client.get_prices(service="tg")
+    for country in prices:
+        print(f"País {country.country_id}: Min {country.services['tg'].min_price}")
 
-# Reativar Número Antigo
-reactivation = client.reactivation_number("ID_ANTIGO")
+    activation = await client.get_number(service="tg", country=0)
+    print(f"Número: {activation.phone_number} (ID: {activation.activation_id})")
+
+    code = await client.get_sms(activation.activation_id)
+    if code:
+        print(f"Código recebido: {code}")
+
+    reactivation = await client.reactivation_number("ID_ANTIGO")
+
+asyncio.run(exemplo())
 ```
 
 ## 🧪 Testes

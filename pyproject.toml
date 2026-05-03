@@ -1,6 +1,6 @@
 [project]
 name = "pyhub"
-version = "2.1.0"
+version = "2.5.0"
 description = ""
 authors = [
     {name = "weslenpy",email = "weslenjhony@gmail.com"}
@@ -8,7 +8,6 @@ authors = [
 readme = "readme.md"
 requires-python = ">=3.11,<4"
 dependencies = [
-    "requests (>=2.32.5,<3.0.0)",
     "pydantic (>=2.12.5,<3.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
     "loguru (>=0.7.3,<0.8.0)"
@@ -18,7 +17,6 @@ dependencies = [
 [tool.pytest.ini_options]
 pythonpath = "."
 addopts = '-p no:warnings'
-asyncio_default_fixture_loop_scope = 'function'
 
 
 [build-system]
