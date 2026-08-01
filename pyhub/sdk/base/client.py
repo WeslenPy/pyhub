@@ -226,14 +226,20 @@ class ClientBase:
                         max_p = base_cost
                         min_price_disp = base_cost
                         max_price_disp = base_cost
-                        
-                        
+
+
                         count_min_price = int(srv_data.get("count", 0) or 0)
                         count_max_price = count_min_price
-                
-                
+
+
                         # Support for multiple prices if freePriceMap is present
                         free_price_map = srv_data.get("freePriceMap")
+
+                        # Some providers (e.g. globalsim) return the price map
+                        # directly as srv_data, e.g. {"5.8": 540}, with no
+                        # "cost"/"price"/"freePriceMap" wrapper keys.
+                        if free_price_map is None and "cost" not in srv_data and "price" not in srv_data:
+                            free_price_map = srv_data
                         if isinstance(free_price_map, dict) and free_price_map:
                             prices = sorted(free_price_map.items())
                             if prices:
@@ -259,7 +265,7 @@ class ClientBase:
                             max_price_disp=max_price_disp,
                             count_max_price=count_max_price,
                             count_min_price=count_min_price,
-                            count=int(srv_data.get("count", 0) or 0)
+                            count=int(srv_data.get("count", count_min_price) or 0)
                         )
                     
                     if service_map:
