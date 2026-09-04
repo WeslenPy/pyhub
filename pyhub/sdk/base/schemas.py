@@ -42,6 +42,15 @@ class Service(BaseModel):
     name: str
 
 
+class Country(BaseModel):
+    id: int
+    rus: str
+    eng: str
+    chn: Optional[str] = None
+    visible: int
+    retry: int
+
+
 class ReactivationDuration(BaseModel):
     unit: str
     value: int
