@@ -3,7 +3,7 @@ import json
 import httpx
 import re
 from typing import Optional, Dict, Any, List, Union
-from .schemas import Balance, NumberActivation, ActivationStatus, ServicePrice, CountryPrices
+from .schemas import Balance, NumberActivation, ActivationStatus, ServicePrice, CountryPrices, Service
 from loguru import logger
 
 
@@ -380,3 +380,21 @@ class ClientBase:
             return [CountryPrices(country_id=cid, services=srvs) for cid, srvs in country_map.items()]
         except Exception as e:
             raise ValueError(f"Error parsing top countries: {response[:200]}... Internal error: {str(e)}")
+
+    async def get_services_list(self) -> List[Service]:
+        """
+        Get list of available services.
+        Action: getServicesList
+        """
+        response = await self._request("getServicesList")
+        try:
+            data = json.loads(response)
+
+            if data.get("status") != "success":
+                raise ValueError(f"API returned non-success status: {response}")
+
+            return [Service(**srv) for srv in data.get("services", [])]
+        except ValueError:
+            raise
+        except Exception as e:
+            raise ValueError(f"Error parsing services list: {response[:200]}... Internal error: {str(e)}")

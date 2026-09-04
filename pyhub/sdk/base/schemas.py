@@ -35,3 +35,35 @@ class ServicePrice(BaseModel):
 class CountryPrices(BaseModel):
     country_id: int
     services: Dict[str, ServicePrice]
+
+
+class Service(BaseModel):
+    code: str
+    name: str
+
+
+class ReactivationDuration(BaseModel):
+    unit: str
+    value: int
+
+
+class ReactivationOption(BaseModel):
+    price: float
+    duration: ReactivationDuration
+
+
+class ReactivationResult(BaseModel):
+    activation_id: str
+    phone_number: str
+    activation_cost: Optional[float] = None
+    currency: Optional[int] = None
+    country_code: Optional[int] = None
+    country_phone_code: Optional[float] = None
+    can_get_another_sms: Optional[bool] = None
+    activation_time: Optional[str] = None
+    activation_end_time: Optional[str] = None
+    activation_operator: Optional[str] = None
+    verification_type: Optional[str] = None
+    subtype: Optional[int] = None
+    service_code: Optional[str] = None
+    status: Optional[int] = None
