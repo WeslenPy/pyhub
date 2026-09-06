@@ -61,6 +61,34 @@ class ReactivationOption(BaseModel):
     duration: ReactivationDuration
 
 
+class EmailActivation(BaseModel):
+    id: int
+    status: str
+    cost: float
+    currency: int
+    date: str
+    site: Optional[str] = None
+    email: Optional[str] = None
+    value: Optional[str] = None
+    message: Optional[str] = None
+
+
+class EmailBatchItem(BaseModel):
+    userId: int
+    site: str
+    email: str
+    status: int
+    cost: float
+    domain: str
+    rank: Optional[int] = None
+
+
+class EmailDomain(BaseModel):
+    name: str
+    cost: float
+    count: int
+
+
 class ReactivationResult(BaseModel):
     activation_id: str
     phone_number: str
